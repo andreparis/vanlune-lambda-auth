@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An AWS Serverless Application.
+Parameters:
+  SecurityGroupId:
+    Type: 'AWS::EC2::SecurityGroup::Id'
+  SubNetId1:
+    Type: 'AWS::EC2::Subnet::Id'
+  SubNetId2:
+    Type: 'AWS::EC2::Subnet::Id'
+  SubNetId3:
+    Type: 'AWS::EC2::Subnet::Id'
+  EnvironmentType:
+    Description: The environment type
+    Type: String
+    Default: dev
+    AllowedValues:
+      - dev
+      - uat
+      - prod
+    ConstraintDescription: 'Must be dev, uat or prod'
+Mappings:
+  EnvironmentVariablesMap:
+    Function.Properties.CodeUri.Bucket:
+      dev: vanlune-bin-dev
+      uat: vanlune-bin-uat
+      prod: vanlune-bin-prod
+    Function.Properties.Auth.Bucket:
+      dev: vanlune-database
+      uat: vanlune-database
+      prod: vanlune-database
+    Stage.ApiGateway:
+      dev: Dev
+      uat: Uat
+      prod: Prod
+Resources:
+  GWAuth:
+    Type: AWS::ApiGateway::Authorizer
+    Properties: 
+      AuthorizerUri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${AuthLambda.Arn}/invocations"
+      RestApiId: !Ref ApiGatewayRestApi
+      Type: "REQUEST"
+      IdentitySource: method.request.header.authorization
+      Name: custom_auth
