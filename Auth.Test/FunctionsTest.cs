@@ -30,7 +30,7 @@ namespace Tests
             var lambdaContext = new Mock<ILambdaContext>();
             var tokenContext = _fixture
                 .Build<TokenAuthorizerContext>()
-                .With(x => x.AuthorizationToken, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwZWRyby5ycm1haWFAbGl2ZS5jb20iLCJqdGkiOiJlYTM5ZWQ5Mzk5MGU0ZjYxYjRjMDliYzFkZDNlMGQ0NyIsInVuaXF1ZV9uYW1lIjoicGVkcm8ucnJtYWlhQGxpdmUuY29tIiwiT1JERVJTIjpbIlBPU1QiLCJHRVQiXSwiZXhwIjoxNjE0NjM0MDQ4fQ.V9nZhkpJZlAsmDiGjBgopCszy1Ns37DGlN-e1f_XXhE")
+                .With(x => x.Authorization, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyIiwianRpIjoiMDQwMDczMjAxZmQ1NGVkZDgxNDgyYmIzNWY2ZWFkNDkiLCJ1bmlxdWVfbmFtZSI6ImFuZHJlcGFyaXMuY29tcEBnbWFpbC5jb20iLCJzaWQiOiI1Iiwib3JkZXJzIjpbIkdFVCIsIlBPU1QiLCJQVVQiXSwiYWNjb3Vuc3RzL3JvbGVzIjoiUE9TVCIsImFjY291bnN0cy9yb2xlcy9wYXRjaCI6IlBPU1QiLCJhY2NvdW5zdHMvcm9sZXMvY2xhaW1zL3BhdGNoIjoiUE9TVCIsImFjY291bnN0cy9jbGFpbXMiOiJQT1NUIiwiYWNjb3Vuc3RzL2NoYW5nZXBhc3Nvd3JkIjoiUE9TVCIsImFjY291bnN0cyI6WyJQT1NUIiwiUFVUIiwiREVMRVRFIl0sInByb2R1Y3RzIjpbIlBPU1QiLCJQVVQiLCJERUxFVEUiLCJHRVQiXSwicHJvZHVjdHMvY2F0ZWdvcnkiOlsiUE9TVCIsIkdFVCJdLCJwcm9kdWN0cy90YWdzIjpbIlBPU1QiLCJHRVQiXSwicHJvZHVjdHMvdmFyaWFudHMiOlsiUE9TVCIsIkdFVCJdLCJvcmRlcnMvdXNlciI6IkdFVCIsIm9yZGVycy9zdGF0dXMiOiJHRVQiLCJvcmRlcnMvdXNlci9lbWFpbCI6IkdFVCIsImV4cCI6MTYxNTc2ODc3MiwiaXNzIjoiUExBWUVSMiIsImF1ZCI6IlBMQVlFUjIifQ.T3n-nI-DwpCuZJ9D9LfmO37ZGP-o5VWwRcaOS9wpmLM5")
                 .With(x => x.MethodArn, "arn:aws:execute-api:us-east-1:277944362602:kenqee79v2/*/POST/accounts/auth")
                 .Create();
 

@@ -16,12 +16,17 @@ namespace Auth.Application.Application.Services
         {
             try
             {
+                token = token.Replace("Bearer ","");
+                var xApiTokenChar = new char[1];
+                token.CopyTo(token.Length - 1, xApiTokenChar, 0, 1);
+                token = token[0..^1];
+                var xApiToken = xApiTokenChar.FirstOrDefault().ToString();
                 var handler = new JwtSecurityTokenHandler();
                 var jsonToken = handler.ReadToken(token);
                 var tokenS = handler.ReadToken(token) as JwtSecurityToken;
 
-                logger.LogLine($"token is {token}");
-
+                var methodArn = ApiGatewayArn.Parse(method);
+                var apiOptions = new ApiOptions(methodArn.Region, methodArn.RestApiId, methodArn.Stage);
                 var principalId = tokenS
                     .Claims
                     .First(claim => claim.Type == JwtRegisteredClaimNames.UniqueName)
@@ -30,16 +35,22 @@ namespace Auth.Application.Application.Services
                     .Claims
                     .First(claim => claim.Type == JwtRegisteredClaimNames.Jti)
                     .Value;
-                var methodArn = ApiGatewayArn.Parse(method);
-                var apiOptions = new ApiOptions(methodArn.Region, methodArn.RestApiId, methodArn.Stage);
-
-                logger.LogLine($"{methodArn.Region} {methodArn.RestApiId} {methodArn.Stage} {methodArn.Resource}");
+                var roleId = tokenS
+                    .Claims
+                    .First(claim => claim.Type == JwtRegisteredClaimNames.Sub)
+                    .Value;
+                var userId = tokenS
+                    .Claims
+                    .First(claim => claim.Type == JwtRegisteredClaimNames.Sid)
+                    .Value;
 
                 var policyBuilder = new AuthPolicyBuilder(principalId, methodArn.AwsAccountId, apiOptions);
+                var permissionKey = string.Concat(methodArn.Verb.ToLowerInvariant(), "#", methodArn.Resource).ToLowerInvariant();
 
-                var permissionKey = string.Concat(methodArn.Verb, "#", methodArn.Resource).ToLowerInvariant();
-
-                if (!Permission.Claim.ContainsKey(permissionKey))
+                if (!Permission.Claim.ContainsKey(permissionKey) ||
+                    string.IsNullOrEmpty(roleId) ||
+                    (roleId == "1" &&
+                    userId != xApiToken))
                 {
                     policyBuilder.DenyMethod(new HttpVerb(methodArn.Verb), methodArn.Resource);
                     return policyBuilder;
@@ -50,6 +61,8 @@ namespace Auth.Application.Application.Services
                     tokenS.Claims.Any(x =>
                     x.Type.ToLowerInvariant().Equals(methodArn.Resource) &&
                     x.Value.Equals(claim));
+
+                logger.LogLine($"User {userId} is auth {isValid}");
 
                 if (tokenS.ValidTo < DateTime.Now)
                     policyBuilder.DenyAllMethods();

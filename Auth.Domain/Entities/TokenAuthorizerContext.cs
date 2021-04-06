@@ -7,7 +7,7 @@ namespace Auth.Domain.Entities
         [JsonProperty(PropertyName = "Type")]
         public string Type { get; set; }
         [JsonProperty(PropertyName = "AuthorizationToken")]
-        public string AuthorizationToken { get; set; }
+        public string Authorization { get; set; }
         [JsonProperty(PropertyName = "MethodArn")]
         public string MethodArn { get; set; }
     }

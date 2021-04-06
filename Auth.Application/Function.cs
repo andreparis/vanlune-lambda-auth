@@ -13,11 +13,11 @@ namespace Auth.Application
         {
             try
             {
-                context.Logger.LogLine($"{nameof(input.AuthorizationToken)}: {input.AuthorizationToken}");
+                context.Logger.LogLine($"{nameof(input.Authorization)}: {input.Authorization}");
                 context.Logger.LogLine($"{nameof(input.MethodArn)}: {input.MethodArn}");
 
                 var policyBuilder = UserService
-                    .Validade(input.AuthorizationToken, 
+                    .Validade(input.Authorization, 
                     input.MethodArn,
                     context.Logger);
 

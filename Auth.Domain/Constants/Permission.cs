@@ -10,36 +10,53 @@ namespace Auth.Domain.Constants
         {
             //Orders:
             { "post#orders","POST"},
+            { "post#orders/assign","POST"},
+            { "get#orders/user","GET"},
             { "get#orders","GET"},
             { "put#orders","PUT"},
+            { "get#orders/filters","GET"},
 
             //Accounts:
-            { "post#accounsts/roles","POST"},
-            { "post#accounsts/roles/patch","POST"},
-            { "post#accounsts/roles/claims/patch","POST"},
+            { "post#accounts/roles","POST"},
+            { "get#accounts/roles","GET"},
+            { "post#accounts/roles/patch","POST"},
+            { "post#accounts/roles/claims/patch","POST"},
 
-            { "post#accounsts/claims","POST"},
-            { "post#accounsts/changepassowrd","POST"},
+            { "post#accounts/claims","POST"},
+            { "post#accounts/changepassowrd","POST"},
 
-            { "post#accounsts","POST"},
-            { "put#accounsts","PUT"},
-            { "delete#accounsts","DELETE"},
+            { "post#accounts","POST"},
+            { "put#accounts","PUT"},
+            { "delete#accounts","DELETE"},
+            { "get#accounts/filters","GET"},
 
             //Products:
             { "post#products","POST"},
             { "put#products","PUT"},
             { "delete#products","DELETE"},
             { "get#products","GET"},
+            { "get#products/filters","GET"},
 
             { "post#products/category","POST"},
             { "get#products/category","GET"},
+            { "put#products/category","PUT"},
+            { "delete#products/category","DELETE"},
             { "get#products/category/all","GET"},
+            { "get#products/category/game","GET"},
 
             { "post#products/tags","POST"},
             { "get#products/tags","GET"},
 
             { "post#products/variants","POST"},
             { "get#products/variants","GET"},
+            { "get#products/variants/servers","GET"},
+
+            { "post#products/customize","POST"},
+            { "put#products/customize","PUT"},
+            { "get#products/customize/filters","GET"},
+            { "delete#products/customize","DELETE"},
+
+            { "get#products/games/all","GET"},
         };
     }
 }
